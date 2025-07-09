@@ -1,4 +1,5 @@
 import puppeteer from "puppeteer";
+import fs from 'fs'
 
 const url = `https://books.toscrape.com/catalogue/page-$.html`
 
@@ -7,7 +8,7 @@ const page = await browser.newPage()
 
 const allBooks = []
 let currentPg = 1
-const maxPg = 5
+const maxPg = 2
 
 while(currentPg <= maxPg){
       await page.goto(`https://books.toscrape.com/catalogue/page-${currentPg}.html`)
@@ -38,5 +39,7 @@ while(currentPg <= maxPg){
       console.log(`Data of pg ${currentPg}`, data)
       currentPg++
 }
+fs.writeFileSync('data.json', JSON.stringify(allBooks, null, 2))
+console.log('data logged successfully')
 
 await browser.close();
